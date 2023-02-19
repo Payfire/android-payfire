@@ -1,4 +1,4 @@
-package com.payfire
+package com.payfire.ui.product
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.payfire.model.product.Product
-import com.squareup.picasso.Picasso
+import com.payfire.R
 
 class ProductsAdapter(
     private val context: Context,
-    private val products: List<Product>,
-    private val onClickProduct: (product: Product) -> Unit
+    private val products: List<ProductUI>,
+    private val onClickProduct: (product: ProductUI) -> Unit
 ) : RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>() {
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -22,7 +21,7 @@ class ProductsAdapter(
         //Picasso.get().load(product.imgUrl).into(holder.image)
         holder.image.setImageResource(
             context.resources.getIdentifier(
-                product.imgUrl,
+                product.image,
                 "drawable",
                 context.packageName
             )

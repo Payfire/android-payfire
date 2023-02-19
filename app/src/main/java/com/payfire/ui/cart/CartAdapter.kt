@@ -4,23 +4,23 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.payfire.R
-import com.payfire.model.product.Product
+import com.payfire.database.model.product.Product
+import com.payfire.ui.product.ProductUI
 
 class CartAdapter(
     private val context: Context,
-    private val products: List<Product>,
+    private val products: List<ProductUI>,
 ) : RecyclerView.Adapter<CartAdapter.CartProductViewHolder>() {
 
     override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) {
         val product = products[position]
         holder.image.setImageResource(
             context.resources.getIdentifier(
-                product.imgUrl,
+                product.image,
                 "drawable",
                 context.packageName
             )
