@@ -1,7 +1,10 @@
 package com.payfire
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.Window
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -12,7 +15,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.payfire.databinding.ActivityMainBinding
+import com.payfire.ui.cart.CartActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,9 +46,17 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.actionCart) {
+            startActivity(Intent(this, CartActivity::class.java))
+            return true
+        }
+        binding.drawerLayout.openDrawer(GravityCompat.START)
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
 
