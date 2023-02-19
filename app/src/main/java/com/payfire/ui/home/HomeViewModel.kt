@@ -11,11 +11,20 @@ class HomeViewModel : ViewModel() {
 
     val products = MutableLiveData<List<Product>>()
 
+    val productsInCart = MutableLiveData<MutableList<Product>>()
+
     fun setup() {
         viewModelScope.launch(Dispatchers.Default) {
             //products.postValue(ProductsRepository().fetchAllProductsRetrofit())
 
             products.postValue(loadProducts())
+            productsInCart.postValue(loadProductsInCart())
+        }
+    }
+
+    fun setupCart() {
+        viewModelScope.launch(Dispatchers.Default) {
+            getProductsInCart()
         }
     }
 
@@ -30,5 +39,20 @@ class HomeViewModel : ViewModel() {
             Product("redbull", "RedBull 0,330L", "redbull", 1.80),
             Product("redbull_no_sugar", "RedBull No Sugar 0,330L", "redbull_no_sugar", 2.20),
         )
+    }
+
+    private fun loadProductsInCart(): MutableList<Product> {
+        return mutableListOf()
+    }
+
+    private fun getProductsInCart(): MutableList<Product> {
+        return productsInCart.value!!
+    }
+
+    fun addProductToList(product: Product) {
+        // should be done with DB call
+        productsInCart.value = (productsInCart.value?.plus(product) ?: mutableListOf(product)) as MutableList<Product>?
+        println("AAAA ")
+        println("HHHHHHHHHHHHH " + productsInCart.value!!.size)
     }
 }

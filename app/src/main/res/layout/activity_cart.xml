@@ -6,23 +6,23 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/card_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Your Cart"
+        android:text="@string/cart_header"
         android:textColor="#000"
         android:textSize="32sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsRecyclerView"
+        android:id="@+id/cart_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/card_header" />
 
     <EditText
         android:id="@+id/paymentNumber"
@@ -32,7 +32,7 @@
         android:hint="Credit card number"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productsRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@id/cart_recycler_view" />
 
     <EditText
         android:id="@+id/paymentAddress"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="#CE0000"
-        android:text="Submit Order"
+        android:text="@string/submit_order_button"
         android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

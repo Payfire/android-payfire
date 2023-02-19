@@ -23,11 +23,11 @@ import com.payfire.ProductsAdapter
 import com.payfire.R
 import com.payfire.databinding.FragmentHomeBinding
 import com.payfire.model.product.Product
+import com.payfire.ui.cart.CartViewModel
 
 class HomeFragment : Fragment() {
 
     lateinit var viewModel: HomeViewModel
-
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
@@ -59,13 +59,8 @@ class HomeFragment : Fragment() {
         val recyclerView: RecyclerView? = view?.findViewById(R.id.recycler_view)
         recyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
-
-            adapter = ProductsAdapter(context, products) { name ->
-                Toast.makeText(
-                    context,
-                    "You purchased 1 $name",
-                    Toast.LENGTH_SHORT,
-                ).show()
+            adapter = ProductsAdapter(context, products) { product ->
+                viewModel.addProductToList(product)
             }
 
         }
