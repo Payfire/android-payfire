@@ -7,22 +7,31 @@ import com.payfire.database.model.product.Product
 class Cart(
     val name: String = "default",
 ) {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     var cartId: Long = 0
 }
 
-@Entity(primaryKeys = ["productId", "cartId"])
-data class CartProductCrossRef(
+@Entity
+class CartEntry(val productId: Long) {
+    @PrimaryKey(autoGenerate = true)
+    var cartEntryId: Long = 0
+
+    var count: Int = 0
+
+}
+
+@Entity(primaryKeys = ["cartId", "cartEntryId"])
+data class CartCartEntryCrossRef(
     val cartId: Long,
-    val productId: Long
+    val cartEntryId: Long
 )
 
-data class CartWithProducts(
+data class CartWithEntries(
     @Embedded val cart: Cart,
     @Relation(
         parentColumn = "cartId",
-        entityColumn = "productId",
-        associateBy = Junction(CartProductCrossRef::class)
+        entityColumn = "cartEntryId",
+        associateBy = Junction(CartCartEntryCrossRef::class)
     )
-    val products: List<Product>
+    val cartEntries: List<CartEntry>
 )

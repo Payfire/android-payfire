@@ -6,9 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.payfire.DEFAULT_CART_NAME
 import com.payfire.database.AppDatabase
-import com.payfire.database.model.cart.Cart
-import com.payfire.database.model.cart.CartProductCrossRef
-import com.payfire.database.model.cart.CartWithProducts
+import com.payfire.database.model.cart.*
 import com.payfire.database.model.product.Product
 import com.payfire.database.model.product.ProductDao
 import com.payfire.transformDbProductsToUiProducts
@@ -36,14 +34,28 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addProductToCart(uiProduct: ProductUI) {
         viewModelScope.launch(Dispatchers.IO) {
-            val dbProduct = productDao.getProduct(uiProduct.name)
+            val dbProduct = productDao.getProductByName(uiProduct.name)
             val cart = cartDao.getDefaultCart()
-            val cartProduct = CartProductCrossRef(cart.cartId, dbProduct.productId)
-            cartDao.insertCartProductCrossRef(cartProduct)
-            val cartWithProducts = cartDao.getCartWithProducts(cart.cartId).first()
-            cartWithProducts.products
+            val cartWithEntries = cartDao.getCartWithEntries(cart.cartId).first()
+
+            val existingCartEntry = cartWithEntries.cartEntries.find {
+                it.productId == dbProduct.productId
+            }
+
+            // TODO RENAME CART ENTRY TO PRODUCT ENTRY AND REMOVE IT
+            if (existingCartEntry == null) {
+                val cartEntry = CartEntry(dbProduct.productId)
+                cartEntry.count = 1
+                val cartEntryId = cartDao.insertCartEntry(cartEntry)
+                val cartCartEntry = CartCartEntryCrossRef(cart.cartId, cartEntryId)
+                cartDao.insertCartEntryInCart(cartCartEntry)
+            } else {
+                existingCartEntry.count += 1
+                cartDao.updateCartEntry(existingCartEntry)
+            }
         }
     }
+
 
     private suspend fun initialProductsLoad(productDao: ProductDao): List<Product> {
         val products = mutableListOf(

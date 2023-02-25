@@ -17,16 +17,23 @@ interface CartDao {
     @Query("DELETE FROM cart WHERE name = :name")
     suspend fun deleteCart(name: String)
 
+    //TODO FETCH FIRST HERE NOT LIST
     @Transaction
     @Query("SELECT * FROM cart WHERE cartId = :id")
-    suspend fun getCartWithProducts(id: Long): List<CartWithProducts>
+    suspend fun getCartWithEntries(id: Long): List<CartWithEntries>
 
     @Transaction
     @Query("SELECT * FROM cart WHERE name = :name")
-    suspend fun getCartWithProducts(name: String): List<CartWithProducts>
+    suspend fun getCartWithEntries(name: String): List<CartWithEntries>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCartProductCrossRef(join: CartProductCrossRef)
+    suspend fun insertCartEntryInCart(join: CartCartEntryCrossRef)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCartEntry(cartEntry: CartEntry): Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateCartEntry(cartEntry: CartEntry)
 
     suspend fun getDefaultCart() : Cart {
         var cart = this.getCart(DEFAULT_CART_NAME)

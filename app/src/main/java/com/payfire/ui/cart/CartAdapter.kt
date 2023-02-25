@@ -27,6 +27,7 @@ class CartAdapter(
         )
         holder.name.text = product.name
         holder.price.text = String.format("%.2f", product.price)
+        holder.count.text = product.count.toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductViewHolder {
@@ -42,5 +43,6 @@ class CartAdapter(
         var name: TextView = productView.findViewById(R.id.name)
         var price: TextView = productView.findViewById(R.id.price)
         var image: ImageView = productView.findViewById(R.id.img)
+        var count: TextView = productView.findViewById(R.id.count)
     }
 }
